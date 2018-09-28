@@ -72,4 +72,5 @@ wait
 
 
 printf "\n\nFinished Pulling All Repos\n"
-sleep 3
+
+read

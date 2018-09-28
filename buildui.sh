@@ -20,4 +20,4 @@ cp ./target/afmss-apdx-ui/js/afmss-core-plugins.min.js ./src/main/webapp/js/afms
 wait
 echo Finished!
 
-sleep 4
+read
