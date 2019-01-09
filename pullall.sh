@@ -3,84 +3,28 @@
 bold=$(tput bold)
 normal=$(tput sgr0)
 
-cd C:\\Users\\brthomas\\workspaces\\git\\afmss-apdx-ws
-wait
-printf "\n***************************\n"
-pwd
+declare -a arr=("C:\\Users\\brthomas\\workspaces\\git\\afmss-apdx-ws"
+                "C:\\Users\\brthomas\\workspaces\\git\\afmss-apdx-ui"
+                "C:\\Users\\brthomas\\workspaces\\git\\afmss-common-ws"
+                "C:\\Users\\brthomas\\workspaces\\git\\afmss-common-ui"
+                "C:\\Users\\brthomas\\workspaces\\git\\afmss-correspondence-ws"
+                "C:\\Users\\brthomas\\workspaces\\git\\bizflowCommon-ws"
+                "C:\\Users\\brthomas\\workspaces\\git\\afmss-global-ws"
+                "C:\\Users\\brthomas\\workspaces\\git\\afmss-global-ui"
+                "C:\\Users\\brthomas\\workspaces\\git\\afmss-sundriesx-ws"
+                "C:\\Users\\brthomas\\workspaces\\git\\afmss-sundriesx-ui"
+                )
 
-printf "${bold}\npulling apdx ws\n${normal}"
-git pull
-wait
-
-cd C:\\Users\\brthomas\\workspaces\\git\\afmss-apdx-ui
-wait
-printf "\n***************************\n"
-pwd
-
-printf "${bold}\npulling apdx ui\n${normal}"
-git pull
-wait
-
-cd C:\\Users\\brthomas\\workspaces\\git\\afmss-common-ws
-wait
-printf "\n***************************\n"
-pwd
-
-printf "${bold}\npulling common ws\n${normal}"
-git pull
-wait
-
-cd C:\\Users\\brthomas\\workspaces\\git\\afmss-common-ui
-wait
-printf "\n***************************\n"
-pwd
-
-printf "${bold}\npulling common ui\n${normal}"
-
-git pull
-wait
-
-cd C:\\Users\\brthomas\\workspaces\\git\\afmss-correspondence-ws
-wait
-printf "\n***************************\n"
-pwd
-
-printf "${bold}\npulling correspondence ws\n${normal}"
-
-git pull
-wait
-
-cd C:\\Users\\brthomas\\workspaces\\git\\bizflowCommon-ws
-wait
-printf "\n***************************\n"
-pwd
-
-printf "${bold}\npulling bizflow common ws\n${normal}"
-
-git pull
-wait
-
-cd C:\\Users\\brthomas\\workspaces\\git\\afmss-global-ui
-wait
-printf "\n***************************\n"
-pwd
-
-printf "${bold}\npulling global ui\n${normal}"
-
-git pull
-wait
-
-cd C:\\Users\\brthomas\\workspaces\\git\\afmss-global-ws
-wait
-printf "\n***************************\n"
-pwd
-
-printf "${bold}\npulling global ws\n${normal}"
-
-git pull
-wait
-
-
+for repo in "${arr[@]}"
+do
+    cd "$repo"
+    wait
+    printf "\n***************************\n"
+    printf "pulling: "
+    pwd
+    git pull
+    wait
+done
 
 printf "${bold}\n\nFinished Pulling All Repos\n${normal}"
 
