@@ -1,7 +1,8 @@
 #!/bin/bash
 
-bold=$(tput bold)
-normal=$(tput sgr0)
+red=$(tput setaf 1)
+white=$(tput setaf 7)
+green=$(tput setaf 2)
 
 declare -a arr=("C:\\Users\\brthomas\\workspaces\\git\\afmss-apdx-ws"
                 "C:\\Users\\brthomas\\workspaces\\git\\afmss-apdx-ui"
@@ -19,13 +20,12 @@ for repo in "${arr[@]}"
 do
     cd "$repo"
     wait
-    printf "\n***************************\n"
-    printf "pulling: "
-    pwd
+    printf "${red}\n***************************\n"
+    printf "pulling: ${PWD##*/} ${white}\n"
     git pull
     wait
 done
 
-printf "${bold}\n\nFinished Pulling All Repos\n${normal}"
+printf "${green}\n\nFinished Pulling All Repos\n${white}"
 
 read
