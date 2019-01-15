@@ -9,6 +9,9 @@ rm ./src/main/webapp/sundriesx-common.js
 rm ./src/main/webapp/sundriesx-core.js
 rm ./src/main/webapp/sundriesx-plugins.min.js
 
+# adding this to prevent build failure due to calling maven clean prior to stopping tomcat
+rm -rf ./target
+
 wait
 echo ${green}Finished deleting old build files!${white}
 
