@@ -26,8 +26,9 @@ for repo in "${arr[@]}"
 do
     cd "$repo"
     wait
+    branch=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
     printf "${red}\n***************************\n"
-    printf "pulling: ${PWD##*/} ${white}\n"
+    printf "pulling:${green} ${PWD##*/} ${white} ($branch)\n"
     git pull
     wait
 done
