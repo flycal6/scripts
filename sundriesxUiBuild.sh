@@ -27,4 +27,5 @@ cp ./target/afmss-sundriesx-ui/sundriesx-plugins.min.js ./src/main/webapp/sundri
 wait
 echo ${green}Finished copying new build files!${white}
 
-read
+# wait for user to hit <enter> before exiting
+# read
