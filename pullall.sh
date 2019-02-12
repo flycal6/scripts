@@ -46,13 +46,21 @@ do
                 printf "Performing 'mvn clean package' on:${green} ${PWD##*/} ${white}\n"
                 mvn clean package
                 wait
-
                 printf "${green}\n***************************\n"
                 printf "Re-Deploying: ${green} ${PWD##*/}.war ${white}\n"
-                cp target\\${repo##*\\}.war ..\\..\\..\\tools\\apache-tomcat-8.5.33\\webapps\\.
-                wait
+
+                # globalx-ui war is not named like others
+                if [[ "$repo" == *globalx-ui ]]
+                then
+                    cp target\\afmss-global-ui.war ..\\..\\..\\tools\\apache-tomcat-8.5.33\\webapps\\.
+                    wait
+                else
+                    cp target\\${repo##*\\}.war ..\\..\\..\\tools\\apache-tomcat-8.5.33\\webapps\\.
+
+                fi
                 printf "${green} ${PWD##*/}.war Deployed ${white}\n"
             fi
+
         else
             C:\\Users\\brthomas\\tools\\scripts\\sundriesxUiBuild.sh
             wait
