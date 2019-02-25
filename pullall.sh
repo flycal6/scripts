@@ -38,32 +38,34 @@ do
     # rebuild and redeploy WAR files for projects not running directly in eclipse tomcat
     if [[ "$gitStatus" != *date. ]]
     then
-        if [[ "$repo" != *sundriesx-ui ]]
+        if [[ "$repo" != *sundriesx* && "$repo" != *-common-ws  && "$repo" != *bizflowCustom ]]
         then
-            if [[ "$repo" == *ui || "$repo" == *portal ]]
+            printf "${green}\n***************************\n"
+            printf "Performing 'mvn clean package' on:${green} ${PWD##*/} ${white}\n"
+            mvn clean package
+            wait
+            printf "${green}\n***************************\n"
+            printf "Re-Deploying: ${green} ${PWD##*/}.war ${white}\n"
+
+            # globalx-ui and bizflowCommon war is not named like others
+            if [[ "$repo" == *globalx-ui ]]
             then
-                printf "${green}\n***************************\n"
-                printf "Performing 'mvn clean package' on:${green} ${PWD##*/} ${white}\n"
-                mvn clean package
-                wait
-                printf "${green}\n***************************\n"
-                printf "Re-Deploying: ${green} ${PWD##*/}.war ${white}\n"
+                cp target\\afmss-global-ui.war ..\\..\\..\\tools\\apache-tomcat-8.5.33\\webapps\\.
+            elif [[ "$repo" == *bizflowCommon-ws ]]
+            then
+                cp target\\bizflow-commow-ws.war ..\\..\\..\\tools\\apache-tomcat-8.5.33\\webapps\\.
+            else
+                cp target\\${repo##*\\}.war ..\\..\\..\\tools\\apache-tomcat-8.5.33\\webapps\\.
 
-                # globalx-ui war is not named like others
-                if [[ "$repo" == *globalx-ui ]]
-                then
-                    cp target\\afmss-global-ui.war ..\\..\\..\\tools\\apache-tomcat-8.5.33\\webapps\\.
-                    wait
-                else
-                    cp target\\${repo##*\\}.war ..\\..\\..\\tools\\apache-tomcat-8.5.33\\webapps\\.
-
-                fi
-                printf "${green} ${PWD##*/}.war Deployed ${white}\n"
             fi
+            printf "${green} ${PWD##*/}.war Deployed to Tomcat webapps/ ${white}\n"
 
         else
-            C:\\Users\\brthomas\\tools\\scripts\\sundriesxUiBuild.sh
-            wait
+            if [[ "$repo" == *sundriesx-ui ]]
+            then
+                C:\\Users\\brthomas\\tools\\scripts\\sundriesxUiBuild.sh
+                wait
+            fi
         fi
     fi
 done
