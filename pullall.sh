@@ -53,7 +53,7 @@ do
                 cp target\\afmss-global-ui.war ..\\..\\..\\tools\\apache-tomcat-8.5.33\\webapps\\.
             elif [[ "$repo" == *bizflowCommon-ws ]]
             then
-                cp target\\bizflow-commow-ws.war ..\\..\\..\\tools\\apache-tomcat-8.5.33\\webapps\\.
+                cp target\\bizflow-common-ws.war ..\\..\\..\\tools\\apache-tomcat-8.5.33\\webapps\\.
             else
                 cp target\\${repo##*\\}.war ..\\..\\..\\tools\\apache-tomcat-8.5.33\\webapps\\.
 
