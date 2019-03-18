@@ -50,12 +50,12 @@ do
             # globalx-ui and bizflowCommon war is not named like others
             if [[ "$repo" == *globalx-ui ]]
             then
-                cp target\\afmss-global-ui.war ..\\..\\..\\tools\\apache-tomcat-8.5.33\\webapps\\.
+                cp target\\afmss-global-ui.war ..\\..\\..\\tools\\apache-tomcat-8.5.38\\webapps\\.
             elif [[ "$repo" == *bizflowCommon-ws ]]
             then
-                cp target\\bizflow-common-ws.war ..\\..\\..\\tools\\apache-tomcat-8.5.33\\webapps\\.
+                cp target\\bizflow-common-ws.war ..\\..\\..\\tools\\apache-tomcat-8.5.38\\webapps\\.
             else
-                cp target\\${repo##*\\}.war ..\\..\\..\\tools\\apache-tomcat-8.5.33\\webapps\\.
+                cp target\\${repo##*\\}.war ..\\..\\..\\tools\\apache-tomcat-8.5.38\\webapps\\.
 
             fi
             printf "${green} ${PWD##*/}.war Deployed to Tomcat webapps/ ${white}\n"
