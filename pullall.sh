@@ -16,6 +16,7 @@ declare -a arr=("C:\\Users\\brthomas\\workspaces\\git\\afmss-apdx-ws"
                 "C:\\Users\\brthomas\\workspaces\\git\\afmss-globalx-ui"
                 "C:\\Users\\brthomas\\workspaces\\git\\afmss-portal"
                 "C:\\Users\\brthomas\\workspaces\\git\\afmss-portal-ws"
+                "C:\\Users\\brthomas\\workspaces\\git\\afmss-usermgmnt-ws"
                 "C:\\Users\\brthomas\\workspaces\\git\\wisx-ws"
                 "C:\\Users\\brthomas\\workspaces\\git\\wisx-ui"
                 "C:\\Users\\brthomas\\workspaces\\git\\afmss-sundriesx-ws"
@@ -50,12 +51,12 @@ do
             # globalx-ui and bizflowCommon war is not named like others
             if [[ "$repo" == *globalx-ui ]]
             then
-                cp target\\afmss-global-ui.war ..\\..\\..\\tools\\apache-tomcat-8.5.38\\webapps\\.
+                cp target\\afmss-global-ui.war ..\\..\\..\\tools\\apache-tomcat-8.5.39\\webapps\\.
             elif [[ "$repo" == *bizflowCommon-ws ]]
             then
-                cp target\\bizflow-common-ws.war ..\\..\\..\\tools\\apache-tomcat-8.5.38\\webapps\\.
+                cp target\\bizflow-common-ws.war ..\\..\\..\\tools\\apache-tomcat-8.5.39\\webapps\\.
             else
-                cp target\\${repo##*\\}.war ..\\..\\..\\tools\\apache-tomcat-8.5.38\\webapps\\.
+                cp target\\${repo##*\\}.war ..\\..\\..\\tools\\apache-tomcat-8.5.39\\webapps\\.
 
             fi
             printf "${green} ${PWD##*/}.war Deployed to Tomcat webapps/ ${white}\n"
