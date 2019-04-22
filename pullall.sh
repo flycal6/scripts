@@ -4,6 +4,8 @@ red=$(tput setaf 1)
 white=$(tput setaf 7)
 green=$(tput setaf 2)
 
+tomcat=../../../tools/apache-tomcat-8.5.39/webapps/
+
 # add afmss projects to array to be pulled
 declare -a arr=("C:\\Users\\brthomas\\workspaces\\git\\afmss-apdx-ws"
                 "C:\\Users\\brthomas\\workspaces\\git\\afmss-apdx-ui"
@@ -12,6 +14,7 @@ declare -a arr=("C:\\Users\\brthomas\\workspaces\\git\\afmss-apdx-ws"
                 "C:\\Users\\brthomas\\workspaces\\git\\afmss-correspondence-ws"
                 "C:\\Users\\brthomas\\workspaces\\git\\bizflowCommon-ws"
                 "C:\\Users\\brthomas\\workspaces\\git\\bizflowDev-bizflowCustom"
+                "C:\\Users\\brthomas\\workspaces\\git\\bizflowDev-afmssweb"
                 "C:\\Users\\brthomas\\workspaces\\git\\afmss-globalx-ws"
                 "C:\\Users\\brthomas\\workspaces\\git\\afmss-globalx-ui"
                 "C:\\Users\\brthomas\\workspaces\\git\\afmss-portal"
@@ -39,7 +42,7 @@ do
     # rebuild and redeploy WAR files for projects not running directly in eclipse tomcat
     if [[ "$gitStatus" != *date. ]]
     then
-        if [[ "$repo" != *sundriesx* && "$repo" != *-common-ws  && "$repo" != *bizflowCustom ]]
+        if [[ "$repo" != *sundriesx-ui && "$repo" != *bizflowCustom ]]
         then
             printf "${green}\n***************************\n"
             printf "Performing 'mvn clean package' on:${green} ${PWD##*/} ${white}\n"
@@ -48,15 +51,21 @@ do
             printf "${green}\n***************************\n"
             printf "Re-Deploying: ${green} ${PWD##*/}.war ${white}\n"
 
-            # globalx-ui and bizflowCommon war is not named like others
+            # handle deploying of weirdly named WAR files
             if [[ "$repo" == *globalx-ui ]]
             then
-                cp target\\afmss-global-ui.war ..\\..\\..\\tools\\apache-tomcat-8.5.39\\webapps\\.
+                cp target\\afmss-global-ui.war "${tomcat}"
             elif [[ "$repo" == *bizflowCommon-ws ]]
             then
-                cp target\\bizflow-common-ws.war ..\\..\\..\\tools\\apache-tomcat-8.5.39\\webapps\\.
+                cp target\\bizflow-common-ws.war "${tomcat}"
+            elif [[ "$repo" == *afmssweb ]]
+            then
+                cp target\\afmssweb.war "${tomcat}"
+            elif [[ "$repo" == *apdx* ]]
+            then
+                echo "not copying apdx to webapps"
             else
-                cp target\\${repo##*\\}.war ..\\..\\..\\tools\\apache-tomcat-8.5.39\\webapps\\.
+                cp target\\${repo##*\\}.war "${tomcat}"
 
             fi
             printf "${green} ${PWD##*/}.war Deployed to Tomcat webapps/ ${white}\n"
