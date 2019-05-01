@@ -6,6 +6,8 @@ green=$(tput setaf 2)
 
 tomcat=../../../tools/apache-tomcat-8.5.39/webapps/
 
+failures=()
+
 # add afmss projects to array to be pulled
 declare -a arr=("C:\\Users\\brthomas\\workspaces\\git\\afmss-apdx-ws"
                 "C:\\Users\\brthomas\\workspaces\\git\\afmss-apdx-ui"
@@ -46,11 +48,23 @@ do
         then
             printf "${green}\n***************************\n"
             printf "Performing 'mvn clean package' on:${green} ${PWD##*/} ${white}\n"
-            mvn clean package
+            mavenBuild=$(mvn clean package 2>&1)
             wait
-            printf "${green}\n***************************\n"
-            printf "Re-Deploying: ${green} ${PWD##*/}.war ${white}\n"
+            printf "%s\n" "$mavenBuild"
+            
+            if [[ "$mavenBuild" == *FAILURE* ]]
+            then
+                printf "${red}\n***************************\n"
+                printf "MAVEN BUILD FAILED - WAR NOT DEPLOYED"
+                printf "\n***************************\n${white}"
+                failures+=(${PWD##*/})
 
+            elif [[ "$mavenbuild" != *FAILURE* ]]
+            then
+                printf "${green}\n***************************\n"
+                printf "Re-Deploying: ${green} ${PWD##*/}.war ${white}\n"
+            fi
+        
             # handle deploying of weirdly named WAR files
             if [[ "$repo" == *globalx-ui ]]
             then
@@ -81,5 +95,20 @@ do
 done
 
 printf "${green}\n\nFinished Pulling All Repos\n${white}"
+
+if [[ ${#failures[@]} > 0 ]]
+then
+    printf "${red}\n***************************\n"
+    for buildFail in "${failures[@]}"
+    do
+        printf "${red}" "$buildFail" "FAILED"
+    done
+    printf "${red}\n***************************\n"
+elif [[ ${#failures[@]} < 1 ]]
+then
+    printf "${green}\n***************************\n"
+    printf "${green}\n\nNo Maven Build Failures!\n${white}"
+    printf "${green}\n***************************\n"
+fi
 
 read
