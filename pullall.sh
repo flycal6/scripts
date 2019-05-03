@@ -48,14 +48,15 @@ do
         then
             printf "${green}\n***************************\n"
             printf "Performing 'mvn clean package' on:${green} ${PWD##*/} ${white}\n"
-            mavenBuild=$(mvn clean package 2>&1)
+            mavenBuild=$(mvn clean package -DskipTests 2>&1)
             wait
             printf "%s\n" "$mavenBuild"
             
             if [[ "$mavenBuild" == *FAILURE* ]]
             then
                 printf "${red}\n***************************\n"
-                printf "MAVEN BUILD FAILED - WAR NOT DEPLOYED"
+                printf "%s" "${PWD##*/}"
+                printf " MAVEN BUILD FAILED - WAR NOT DEPLOYED"
                 printf "\n***************************\n${white}"
                 failures+=(${PWD##*/})
 
@@ -101,13 +102,14 @@ then
     printf "${red}\n***************************\n"
     for buildFail in "${failures[@]}"
     do
-        printf "${red}" "$buildFail" "FAILED"
+        printf $buildFail
+        printf " FAILED\n"
     done
-    printf "${red}\n***************************\n"
+    printf "\n***************************\n"
 elif [[ ${#failures[@]} < 1 ]]
 then
     printf "${green}\n***************************\n"
-    printf "${green}\n\nNo Maven Build Failures!\n${white}"
+    printf "${white}No Maven Build Failures!"
     printf "${green}\n***************************\n"
 fi
 
