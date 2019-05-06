@@ -7,6 +7,7 @@ green=$(tput setaf 2)
 tomcat=../../../tools/apache-tomcat-8.5.39/webapps/
 
 failures=()
+deployfailures=()
 
 # add afmss projects to array to be pulled
 declare -a arr=("C:\\Users\\brthomas\\workspaces\\git\\afmss-apdx-ws"
@@ -69,22 +70,30 @@ do
             # handle deploying of weirdly named WAR files
             if [[ "$repo" == *globalx-ui ]]
             then
-                cp target\\afmss-global-ui.war "${tomcat}"
+                deploy=$(cp target\\afmss-global-ui.war "${tomcat}" 2>&1)
+            if [[ "$repo" == *globalx-ws ]]
+            then
+                deploy=$(cp target\\afmss-global-ws.war "${tomcat}" 2>&1)
             elif [[ "$repo" == *bizflowCommon-ws ]]
             then
-                cp target\\bizflow-common-ws.war "${tomcat}"
+                deploy=$(cp target\\bizflow-common-ws.war "${tomcat}" 2>&1)
             elif [[ "$repo" == *afmssweb ]]
             then
-                cp target\\afmssweb.war "${tomcat}"
+                deploy=$(cp target\\afmssweb.war "${tomcat}" 2>&1)
             elif [[ "$repo" == *apdx* ]]
             then
                 echo "not copying apdx to webapps"
             else
-                cp target\\${repo##*\\}.war "${tomcat}"
-
+                deploy=$(cp target\\${repo##*\\}.war "${tomcat}" 2>&1)
             fi
-            printf "${green} ${PWD##*/}.war Deployed to Tomcat webapps/ ${white}\n"
 
+            if [[ deploy != *cannot* ]]
+            then
+                printf "${green} ${PWD##*/}.war Deployed to Tomcat webapps/ ${white}\n"
+            else
+                printf "%s" "${PWD##*/}"
+                printf " deploy failed"
+                deployfailures+=(deploy)
         else
             if [[ "$repo" == *sundriesx-ui ]]
             then
@@ -113,4 +122,19 @@ then
     printf "${green}\n***************************\n"
 fi
 
+if [[ ${#deployfailures[@]} > 0 ]]
+then
+    printf "${red}\n***************************\n"
+    for deployFail in "${deployfailures[@]}"
+    do
+        printf $deployFail
+        printf " FAILED\n"
+    done
+    printf "\n***************************\n"
+elif [[ ${#deployfailures[@]} < 1 ]]
+then
+    printf "${green}\n***************************\n"
+    printf "${white}No Deployment Failures!"
+    printf "${green}\n***************************\n"
+fi
 read
