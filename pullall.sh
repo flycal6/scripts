@@ -8,6 +8,7 @@ tomcat=../../../tools/apache-tomcat-8.5.39/webapps/
 
 failures=()
 deployfailures=()
+deploy=""
 
 # add afmss projects to array to be pulled
 declare -a arr=("C:\\Users\\brthomas\\workspaces\\git\\afmss-apdx-ws"
@@ -71,7 +72,7 @@ do
             if [[ "$repo" == *globalx-ui ]]
             then
                 deploy=$(cp target\\afmss-global-ui.war "${tomcat}" 2>&1)
-            if [[ "$repo" == *globalx-ws ]]
+            elif [[ "$repo" == *globalx-ws ]]
             then
                 deploy=$(cp target\\afmss-global-ws.war "${tomcat}" 2>&1)
             elif [[ "$repo" == *bizflowCommon-ws ]]
@@ -94,6 +95,7 @@ do
                 printf "%s" "${PWD##*/}"
                 printf " deploy failed"
                 deployfailures+=(deploy)
+            fi
         else
             if [[ "$repo" == *sundriesx-ui ]]
             then
