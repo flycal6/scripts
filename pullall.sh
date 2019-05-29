@@ -43,10 +43,10 @@ do
     printf "%s\n" "$gitStatus"
     wait
 
-    # rebuild and redeploy WAR files for projects not running directly in eclipse tomcat
+
     if [[ "$gitStatus" != *date. ]]
     then
-        if [[ "$repo" != *sundriesx-ui && "$repo" != *bizflowCustom ]]
+        if [[ "$repo" != *bizflowCustom ]]
         then
             printf "${green}\n***************************\n"
             printf "Performing 'mvn clean package' on:${green} ${PWD##*/} ${white}\n"
@@ -81,9 +81,9 @@ do
             elif [[ "$repo" == *afmssweb ]]
             then
                 deploy=$(cp target\\afmssweb.war "${tomcat}" 2>&1)
-            elif [[ "$repo" == *apdx* ]]
-            then
-                echo "not copying apdx to webapps"
+            # elif [[ "$repo" == *apdx* ]]
+            # then
+            #     echo "not copying apdx to webapps"
             else
                 deploy=$(cp target\\${repo##*\\}.war "${tomcat}" 2>&1)
             fi
@@ -96,12 +96,12 @@ do
                 printf " deploy failed"
                 deployfailures+=(deploy)
             fi
-        else
-            if [[ "$repo" == *sundriesx-ui ]]
-            then
-                C:\\Users\\brthomas\\tools\\scripts\\sundriesxUiBuild.sh
-                wait
-            fi
+        # else
+        #     if [[ "$repo" == *sundriesx-ui ]]
+        #     then
+        #         C:\\Users\\brthomas\\tools\\scripts\\sundriesxUiBuild.sh
+        #         wait
+        #     fi
         fi
     fi
 done
