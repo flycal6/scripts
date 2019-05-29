@@ -24,10 +24,10 @@ declare -a arr=("C:\\Users\\brthomas\\workspaces\\git\\afmss-apdx-ws"
                 "C:\\Users\\brthomas\\workspaces\\git\\afmss-portal"
                 "C:\\Users\\brthomas\\workspaces\\git\\afmss-portal-ws"
                 "C:\\Users\\brthomas\\workspaces\\git\\afmss-usermgmnt-ws"
-                "C:\\Users\\brthomas\\workspaces\\git\\wisx-ws"
-                "C:\\Users\\brthomas\\workspaces\\git\\wisx-ui"
                 "C:\\Users\\brthomas\\workspaces\\git\\afmss-sundriesx-ws"
                 "C:\\Users\\brthomas\\workspaces\\git\\afmss-sundriesx-ui"
+                "C:\\Users\\brthomas\\workspaces\\git\\afmss-wcrx-ui"
+                "C:\\Users\\brthomas\\workspaces\\git\\afmss-wcrx-ws"
                 )
 
 for repo in "${arr[@]}"
