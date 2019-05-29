@@ -81,9 +81,9 @@ do
             elif [[ "$repo" == *afmssweb ]]
             then
                 deploy=$(cp target\\afmssweb.war "${tomcat}" 2>&1)
-            # elif [[ "$repo" == *apdx* ]]
-            # then
-            #     echo "not copying apdx to webapps"
+            elif [[ "$repo" == *wcrx* || "$repo" == *sundriesx* ]]
+            then
+                echo "NOT copying ${repo##*\\}.war to webapps"
             else
                 deploy=$(cp target\\${repo##*\\}.war "${tomcat}" 2>&1)
             fi
