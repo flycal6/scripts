@@ -8,6 +8,7 @@ tomcat=../../../tools/apache-tomcat-8.5.39/webapps/
 
 failures=()
 deployfailures=()
+updatefailures=()
 deploy=""
 
 # add afmss projects to array to be pulled
@@ -44,7 +45,7 @@ do
     wait
 
 
-    if [[ "$gitStatus" != *date. ]]
+    if [[ "$gitStatus" != *date. && "$gitStatus" != *Aborting ]]
     then
         if [[ "$repo" != *bizflowCustom ]]
         then
@@ -65,37 +66,38 @@ do
             elif [[ "$mavenbuild" != *FAILURE* ]]
             then
                 printf "${green}\n***************************\n"
-                printf "Re-Deploying: ${green} ${PWD##*/}.war ${white}\n"
+                printf "${green}\nMAVEN BUILD SUCCEEDED\n"
+                # printf "Re-Deploying: ${green} ${PWD##*/}.war ${white}\n"
             fi
         
             # handle deploying of weirdly named WAR files
-            if [[ "$repo" == *globalx-ui ]]
-            then
-                deploy=$(cp target\\afmss-global-ui.war "${tomcat}" 2>&1)
-            elif [[ "$repo" == *globalx-ws ]]
-            then
-                deploy=$(cp target\\afmss-global-ws.war "${tomcat}" 2>&1)
-            elif [[ "$repo" == *bizflowCommon-ws ]]
-            then
-                deploy=$(cp target\\bizflow-common-ws.war "${tomcat}" 2>&1)
-            elif [[ "$repo" == *afmssweb ]]
-            then
-                deploy=$(cp target\\afmssweb.war "${tomcat}" 2>&1)
-            elif [[ "$repo" == *wcrx* || "$repo" == *sundriesx* ]]
-            then
-                echo "NOT copying ${repo##*\\}.war to webapps"
-            else
-                deploy=$(cp target\\${repo##*\\}.war "${tomcat}" 2>&1)
-            fi
+            # if [[ "$repo" == *globalx-ui ]]
+            # then
+            #     deploy=$(cp target\\afmss-global-ui.war "${tomcat}" 2>&1)
+            # elif [[ "$repo" == *globalx-ws ]]
+            # then
+            #     deploy=$(cp target\\afmss-global-ws.war "${tomcat}" 2>&1)
+            # elif [[ "$repo" == *bizflowCommon-ws ]]
+            # then
+            #     deploy=$(cp target\\bizflow-common-ws.war "${tomcat}" 2>&1)
+            # elif [[ "$repo" == *afmssweb ]]
+            # then
+            #     deploy=$(cp target\\afmssweb.war "${tomcat}" 2>&1)
+            # elif [[ "$repo" == *wcrx* || "$repo" == *sundriesx* ]]
+            # then
+            #     echo "NOT copying ${repo##*\\}.war to webapps"
+            # else
+            #     deploy=$(cp target\\${repo##*\\}.war "${tomcat}" 2>&1)
+            # fi
 
-            if [[ deploy != *cannot* ]]
-            then
-                printf "${green} ${PWD##*/}.war Deployed to Tomcat webapps/ ${white}\n"
-            else
-                printf "%s" "${PWD##*/}"
-                printf " deploy failed"
-                deployfailures+=(deploy)
-            fi
+            # if [[ deploy != *cannot* ]]
+            # then
+            #     printf "${green} ${PWD##*/}.war Deployed to Tomcat webapps/ ${white}\n"
+            # else
+            #     printf "%s" "${PWD##*/}"
+            #     printf " deploy failed"
+            #     deployfailures+=(deploy)
+            # fi
         # else
         #     if [[ "$repo" == *sundriesx-ui ]]
         #     then
@@ -103,10 +105,35 @@ do
         #         wait
         #     fi
         fi
+            
+    elif [[ "$gitStatus" == *Aborting ]]
+        then
+            printf "${red}\n***************************\n"
+            printf "%s" "${PWD##*/}"
+            printf " FAILED TO UPDATE"
+            printf "\n***************************\n${white}"
+            updatefailures+=(${PWD##*/})
+
     fi
 done
 
 printf "${green}\n\nFinished Pulling All Repos\n${white}"
+
+if [[ ${#updatefailures[@]} > 0 ]]
+then
+    printf "${red}\n***************************\n"
+    for updateFail in "${updatefailures[@]}"
+    do
+        printf $updateFail
+        printf " FAILED TO UPDATE\n"
+    done
+    printf "\n***************************\n"
+elif [[ ${#updatefailures[@]} < 1 ]]
+then
+    printf "${green}\n***************************\n"
+    printf "${white}No Git Update Failures!"
+    printf "${green}\n***************************\n"
+fi
 
 if [[ ${#failures[@]} > 0 ]]
 then
@@ -114,7 +141,7 @@ then
     for buildFail in "${failures[@]}"
     do
         printf $buildFail
-        printf " FAILED\n"
+        printf " FAILED TO MAVEN BUILD\n"
     done
     printf "\n***************************\n"
 elif [[ ${#failures[@]} < 1 ]]
@@ -130,7 +157,7 @@ then
     for deployFail in "${deployfailures[@]}"
     do
         printf $deployFail
-        printf " FAILED\n"
+        printf " FAILED TO DEPLOY\n"
     done
     printf "\n***************************\n"
 elif [[ ${#deployfailures[@]} < 1 ]]
