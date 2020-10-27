@@ -77,6 +77,11 @@ applyCert() {
     keytool -import -alias $1 -keystore  "C:\Users\brthomas\tools\jdk8.48.0.53-zulu\jre\lib\security\cacerts" -file ~/Downloads/"$2"
 }
 
+serveRaptor() {
+    cd ~/workspaces/git/raptor/raptor-client
+    ~/tools/node12/ng serve --ssl=true --sslKey=C:\tmp\raptor-config\cred-stores\localhost-key.pem --sslCert=C:\tmp\raptor-config\cred-stores\localhost-cert.pem
+}
+
 # aliases
 alias la='ls -a'
 alias ls='ls --show-control-chars -F --color $*'
