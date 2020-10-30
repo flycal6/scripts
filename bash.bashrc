@@ -77,7 +77,7 @@ applyCert() {
     keytool -import -alias $1 -keystore  "C:\Users\brthomas\tools\jdk8.48.0.53-zulu\jre\lib\security\cacerts" -file ~/Downloads/"$2"
 }
 
-serveRaptor() {
+raptorcli() {
     cd ~/workspaces/git/raptor/raptor-client
     ~/tools/node12/ng serve --ssl=true --sslKey=C:\tmp\raptor-config\cred-stores\localhost-key.pem --sslCert=C:\tmp\raptor-config\cred-stores\localhost-cert.pem
 }
@@ -95,6 +95,6 @@ alias testgrep='git log origin/Test --oneline | grep $*'
 alias sshdev='ssh brthomas@ilmocdt0ad964'
 alias sshtest='ssh brthomas@ilmocdt0dz963'
 alias jaspersoft='"\Program Files\TIBCO\Jaspersoft Studio Professional-6.1.1.final\Jaspersoft Studio Professional.exe" -configuration C:\\Users\\brthomas\\.jaspersoft\\configuration\\'
-alias raptorclient='~/tools/node12/ng serve --ssl=true --sslKey=C:\tmp\raptor-config\cred-stores\localhost-key.pem --sslCert=C:\tmp\raptor-config\cred-stores\localhost-cert.pem'
+# alias raptorclient='~/tools/node12/ng serve --ssl=true --sslKey=C:\tmp\raptor-config\cred-stores\localhost-key.pem --sslCert=C:\tmp\raptor-config\cred-stores\localhost-cert.pem'
 alias ng='"C:\Users\brthomas\tools\node12\ng"'
 alias npm='"C:\Users\brthomas\tools\node12\npm"'
