@@ -82,6 +82,8 @@ raptorcli() {
     ~/tools/node12/ng serve --ssl=true --sslKey=C:\tmp\raptor-config\cred-stores\localhost-key.pem --sslCert=C:\tmp\raptor-config\cred-stores\localhost-cert.pem
 }
 
+export PATH=/c/Users/brthomas/tools/node12:$PATH
+
 # aliases
 alias la='ls -a'
 alias ls='ls --show-control-chars -F --color $*'
