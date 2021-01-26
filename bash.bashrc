@@ -82,6 +82,11 @@ raptorcli() {
     ~/tools/node12/ng serve --ssl=true --sslKey=C:\tmp\raptor-config\cred-stores\localhost-key.pem --sslCert=C:\tmp\raptor-config\cred-stores\localhost-cert.pem
 }
 
+rapbuild() {
+    cd ~/workspaces/git/raptor
+    mvn clean install -Dmaven.wagon.http.ssl.insecure=true
+}
+
 export PATH=/c/Users/brthomas/tools/node12:$PATH
 
 # aliases
@@ -90,6 +95,7 @@ alias ls='ls --show-control-chars -F --color $*'
 alias ll='ls -l'
 alias gl='git log --oneline --all --graph --decorate  $*'
 alias buildui='C:\\Users\\brthomas\\tools\\scripts\\buildui.sh'
+alias buildAndSendRaptor='C:\\Users\\brthomas\\tools\\scripts\\buildAndSendRaptor.sh'
 alias sundriesxbuildui='C:\\Users\\brthomas\\tools\\scripts\\sundriesxUiBuild.sh'
 alias pullall='C:\\Users\\brthomas\\tools\\scripts\\pullall.sh'
 alias devgrep='git log --oneline | grep $*'
