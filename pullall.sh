@@ -166,4 +166,6 @@ then
     printf "${white}No Deployment Failures!"
     printf "${green}\n***************************\n"
 fi
-read
+
+# uncomment to wait for input before ending
+# read
