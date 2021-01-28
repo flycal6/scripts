@@ -11,53 +11,62 @@ white=$(tput setaf 7)
 green=$(tput setaf 2)
 
 cd ~/workspaces/git/raptor || exit
+
+gitStatus=$(git status --short)
 wait
 
-printf "%s\n***************************\n" "${red}"
-printf "Deleting node_modules to prevent eperm error during npm install\n"
-printf "***************************\n%s" "${white}"
+if [[ "$gitStatus" != '' ]] 
+then
+  printf "%s\nYou have uncommited changes\nCommit or stash your changes before running this script\n" "${red}"
+  printf "%s\n$gitStatus" "${white}"
+  
+else 
+  printf "%s\n***************************\n" "${red}"
+  printf "Deleting node_modules to prevent eperm error during npm install\n"
+  printf "***************************\n%s" "${white}"
 
-# delete node_modules to prevent eperm error
-rm -rf ~/workspaces/git/raptor/raptor-client/node_modules
-wait
-printf "%s\n***************************\n" "${green}"
-printf "Done cleaning node_modules \n\n"
-printf "Beginning build \n"
-printf "***************************\n%s" "${white}"
-sleep 2
+  # delete node_modules to prevent eperm error
+  rm -rf ~/workspaces/git/raptor/raptor-client/node_modules
+  wait
+  printf "%s\n***************************\n" "${green}"
+  printf "Done cleaning node_modules \n\n"
+  printf "Beginning build \n"
+  printf "***************************\n%s" "${white}"
+  sleep 2
 
-# build
-mvn clean install -Dmaven.wagon.http.ssl.insecure=true
-wait
+  # build
+  mvn clean install -Dmaven.wagon.http.ssl.insecure=true
+  wait
 
-printf "%s\n***************************\n" "${green}"
-printf "Done Building \n"
-printf "Copying War to /tmp/raptor.war \n"
-printf "***************************\n%s" "${white}"
-sleep 2
+  printf "%s\n***************************\n" "${green}"
+  printf "Done Building \n"
+  printf "Copying War to /tmp/raptor.war \n"
+  printf "***************************\n%s" "${white}"
+  sleep 2
 
-#move the war and rename
-cp raptor-server/target/raptor-server-${version}.war /tmp/raptor.war
-wait
+  #move the war and rename
+  cp raptor-server/target/raptor-server-${version}.war /tmp/raptor.war
+  wait
 
-printf "%s\n***************************\n" "${green}"
-printf "Copied \n"
-printf "Sending to 630 \n"
-printf "***************************\n%s" "${white}"
+  printf "%s\n***************************\n" "${green}"
+  printf "Copied \n"
+  printf "Sending to 630 \n"
+  printf "***************************\n%s" "${white}"
 
-# send to 630
-scp /tmp/raptor.war ${user}@${test}:/tmp/
-wait
+  # send to 630
+  scp /tmp/raptor.war ${user}@${test}:/tmp/
+  wait
 
-printf "%s\n***************************\n" "${green}"
-printf "Sent to 630 \n"
-printf "Sending to 623 \n"
-printf "***************************\n%s" "${white}"
+  printf "%s\n***************************\n" "${green}"
+  printf "Sent to 630 \n"
+  printf "Sending to 623 \n"
+  printf "***************************\n%s" "${white}"
 
-# send to 623
-scp /tmp/raptor.war ${user}@${dev}:/tmp/
-wait
- 
-printf "%s\n***************************\n" "${green}"
-printf "Done! War files uploaded! \n"
-printf "***************************\n%s" "${white}"
+  # send to 623
+  scp /tmp/raptor.war ${user}@${dev}:/tmp/
+  wait
+   
+  printf "%s\n***************************\n" "${green}"
+  printf "Done! War files uploaded! \n"
+  printf "***************************\n%s" "${white}"
+fi
