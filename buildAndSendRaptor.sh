@@ -73,7 +73,17 @@ else
     wait
 
     printf "%s\n***************************\n" "${green}"
+    printf "Sent to 630 \n"
+    printf "Sending to AWS \n"
+    
+    # send to 630
+    scp -i ~/.ssh/aws.raptor.pem /tmp/raptor.war ec2-user@ec2-54-70-162-128.us-west-2.compute.amazonaws.com 
+    wait
+   
+    printf "%s\n***************************\n" "${green}"
     printf "Done! War files uploaded! \n"
     printf "***************************\n%s" "${white}"
+    
+    
   fi
 fi
