@@ -84,6 +84,19 @@ cliraptor() {
 
 justbuild() {
     cd ~/workspaces/git/raptor
+    
+    echo "*****************************************************************"
+    echo "Deleting node_modules to prevent eperm error during npm install"
+    echo "*****************************************************************"
+   
+    # delete node_modules to prevent eperm error
+    rm -rf ~/workspaces/git/raptor/raptor-client/node_modules
+    wait
+    echo "***************************"
+    echo "Done cleaning node_modules "
+    echo "***************************"
+    sleep 1
+      
     mvn clean install -Dmaven.wagon.http.ssl.insecure=true
 }
 
