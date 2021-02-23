@@ -1,7 +1,6 @@
 #!/bin/bash
 # build then send to server
 
-version=1.1.0
 user=brthomas
 dev=ilmnirm0ad623
 test=ilmocdt0dz630
@@ -51,7 +50,7 @@ else
     sleep 1
 
     #move the war and rename
-    cp raptor-server/target/raptor-server-${version}.war /tmp/raptor.war
+    cp raptor-server/target/*.war /tmp/raptor.war
     wait
 
     printf "%s\n***************************\n" "${green}"
