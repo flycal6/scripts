@@ -83,21 +83,31 @@ cliraptor() {
 }
 
 justbuild() {
-    cd ~/workspaces/git/raptor
-    
-    echo "*****************************************************************"
-    echo "Deleting node_modules to prevent eperm error during npm install"
-    echo "*****************************************************************"
-   
-    # delete node_modules to prevent eperm error
-    rm -rf ~/workspaces/git/raptor/raptor-client/node_modules
+    cd ~/workspaces/git/raptor || exit
+
+    gitStatus=$(git status --short)
     wait
-    echo "***************************"
-    echo "Done cleaning node_modules "
-    echo "***************************"
-    sleep 1
+
+    if [[ "$gitStatus" != '' ]] 
+    then
+      printf "%s\nYou have uncommited changes\nCommit or stash your changes before running this script\n" "${red}"
+      printf "%s\n$gitStatus" "${white}"
       
-    mvn clean install -Dmaven.wagon.http.ssl.insecure=true
+    else 
+        echo "*****************************************************************"
+        echo "Deleting node_modules to prevent eperm error during npm install"
+        echo "*****************************************************************"
+       
+        # delete node_modules to prevent eperm error
+        rm -rf ~/workspaces/git/raptor/raptor-client/node_modules
+        wait
+        echo "***************************"
+        echo "Done cleaning node_modules "
+        echo "***************************"
+        sleep 1
+          
+        mvn clean install -Dmaven.wagon.http.ssl.insecure=true
+    fi
 }
 
 export PATH=/c/Users/brthomas/tools/node12:$PATH
